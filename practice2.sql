@@ -55,3 +55,24 @@ WHERE B.추천대상일자 = TO_CHAR(SYSDATE, 'YYYY.MM.DD')
             WHERE X.고객ID = B.고객ID
             AND X.컨텐츠ID = B.컨텐츠ID
 );
+
+
+-- 77번
+-- (+) 붙은 모든 조건 → ON
+-- (+) 없는 조건 → WHERE
+SELECT A.게시판ID, A.게시판명, COUNT(B.게시글ID) AS COUNT
+FROM 게시판 A, 게시글 B
+WHERE A.게시판ID = B.게시판ID(+)
+    AND B.삭제여부(+) = 'N'
+    AND A.사용여부 = 'Y'
+GROUP BY A.게시판ID, A.게시판명
+ORDER BY A.게시판ID;
+
+SELECT A.게시판ID, A.게시판명, COUNT(B.게시글ID) AS COUNT
+FROM 게시판 A
+LEFT OUTER JOIN 게시글 B
+    ON A.게시판ID = B.게시판ID
+        AND B.삭제여부 = 'N'
+WHERE A.사용여부 = 'Y'
+GROUP BY A.게시판ID, A.게시판명
+ORDER BY A.게시판ID;
